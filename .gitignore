@@ -6,6 +6,9 @@ dist/
 dist-ssr/
 frontend/dist/
 
+# Database exports (pueden contener datos sensibles)
+**/database_export.sql
+
 # Environment variables (¡NUNCA subir secretos!)
 .env
 .env.local

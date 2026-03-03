@@ -16,11 +16,15 @@ class DatabaseConnection {
    */
   async connect() {
     try {
-      this.pool = mysql.createPool(dbConfig);
-      
+      const config = dbConfig.uri
+        ? { uri: dbConfig.uri, connectionLimit: 10, waitForConnections: true, queueLimit: 0 }
+        : dbConfig;
+      this.pool = mysql.createPool(config);
+
       // Verificar conexión
       const connection = await this.pool.getConnection();
-      console.log('✅ Conectado a MariaDB - Base de datos:', dbConfig.database);
+      const dbName = dbConfig.database || (dbConfig.uri && dbConfig.uri.split('/').pop()?.split('?')[0]) || 'DB';
+      console.log('✅ Conectado a MariaDB - Base de datos:', dbName);
       connection.release();
       
       return this.pool;

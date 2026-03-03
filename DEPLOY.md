@@ -57,14 +57,41 @@ En tu proyecto de Railway, ve a **Variables** y agrega:
 | `JWT_SECRET`  | Clave secreta para JWT          | (genera una aleatoria)    |
 
 **Base de datos en Railway:**
-- En tu proyecto, haz clic en **+ New** → **Database** → **MySQL**.
-- Railway creará una instancia y añadirá las variables de conexión automáticamente.
+1. En tu proyecto, haz clic en **+ New** → **Database** → **MySQL**.
+2. **Importante:** En tu **servicio de la app** (el que despliega el código), ve a **Variables** → **Add Reference** (o "+" para nueva variable).
+3. Selecciona el **servicio MySQL** como referencia — así se inyectarán `MYSQL_URL`, `MYSQLHOST`, etc. automáticamente.
+4. Sin esta referencia, la app intentará conectar a localhost y fallará.
 
-## 5. Generar dominio
+## 5. Importar la base de datos a Railway
+
+### Si tienes la base de datos local (data_dashboard)
+
+1. **Exporta tu base de datos local:**
+   ```powershell
+   cd backend
+   npm run export-db
+   ```
+   Esto crea `backend/database_export.sql` con todas las tablas y datos.
+
+2. **Importa en Railway** con MySQL Workbench, DBeaver o similar:
+   - Conecta al MySQL de Railway (Variables → host, puerto, usuario, contraseña).
+   - Ejecuta el archivo `backend/database_export.sql`.
+
+### Si NO tienes datos locales
+
+Ejecuta `backend/src/infrastructure/database/schema_cpanel.sql` en Railway (crea tablas vacías + usuarios de prueba).
+
+### Usuarios de prueba (incluidos en ambos)
+
+- **admin** / admin123
+- **analista** / analista123
+- **viewer** / viewer123
+
+## 6. Generar dominio
 
 En **Settings** → **Networking** → **Generate Domain** para obtener la URL pública de tu app.
 
-## 6. Usuarios de prueba
+## 7. Usuarios de prueba
 
 - **admin** / admin123  
 - **analista** / analista123  
