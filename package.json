@@ -5,7 +5,7 @@
   "description": "FIA - Pollo Fiesta Dashboard",
   "scripts": {
     "build": "cd frontend && npm install && npm run build && cd ../backend && npm install",
-    "start": "node backend/src/index.js",
+    "start": "cd backend && node src/index.js",
     "install:all": "cd frontend && npm install && cd ../backend && npm install"
   },
   "engines": {
