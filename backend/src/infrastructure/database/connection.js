@@ -16,13 +16,10 @@ class DatabaseConnection {
    */
   async connect() {
     try {
-      // Si hay URI, usarla directamente (Railway)
-      if (dbConfig.uri) {
-        this.pool = mysql.createPool(dbConfig.uri);
-      } else {
-        // Usar configuración individual (Local)
-        this.pool = mysql.createPool(dbConfig);
-      }
+      const config = dbConfig.uri
+        ? { uri: dbConfig.uri, connectionLimit: 10, waitForConnections: true, queueLimit: 0 }
+        : dbConfig;
+      this.pool = mysql.createPool(config);
 
       // Verificar conexión
       const connection = await this.pool.getConnection();

@@ -3,17 +3,7 @@
  * Main Entry Point
  */
 
-require('dotenv').config({ path: require('path').join(__dirname, '../../.env') });
-
-// Debug: Ver qué variables están disponibles
-console.log('🔍 Variables de entorno disponibles:');
-console.log('   MYSQL_URL:', process.env.MYSQL_URL ? 'DEFINIDO' : 'NO DEFINIDO');
-console.log('   MYSQL_PUBLIC_URL:', process.env.MYSQL_PUBLIC_URL ? 'DEFINIDO' : 'NO DEFINIDO');
-console.log('   MYSQLHOST:', process.env.MYSQLHOST ? 'DEFINIDO' : 'NO DEFINIDO');
-console.log('   MYSQLUSER:', process.env.MYSQLUSER ? 'DEFINIDO' : 'NO DEFINIDO');
-console.log('   MYSQLDATABASE:', process.env.MYSQLDATABASE ? 'DEFINIDO' : 'NO DEFINIDO');
-console.log('');
-
+require('dotenv').config();
 const serverConfig = require('./config/server.config');
 const { getInstance: getDbConnection } = require('./infrastructure/database/connection');
 
