@@ -32,7 +32,7 @@ const App = require('./app');
  */
 async function startServer() {
   try {
-    console.log('🚀 Iniciando servidor...\n');
+    console.log('🚀 Iniciando servidor FIA...\n');
 
     // Conectar a la base de datos
     const dbConnection = getDbConnection();
