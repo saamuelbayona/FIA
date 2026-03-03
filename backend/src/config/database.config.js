@@ -17,12 +17,14 @@ if (mysqlUrl) {
     charset: 'utf8mb4'
   };
 } else {
+  // Railway inyecta MYSQLHOST, MYSQLUSER, etc. automáticamente
+  // Solo usar fallbacks para desarrollo local
   module.exports = {
-    host: process.env.MYSQLHOST || process.env.DB_HOST || 'yamanote.proxy.rlwy.net',
+    host: process.env.MYSQLHOST || process.env.DB_HOST || 'localhost',
     user: process.env.MYSQLUSER || process.env.DB_USER || 'root',
-    password: process.env.MYSQLPASSWORD || process.env.DB_PASSWORD || 'KqtsrycynMDaFOIGsBwryJrhnyzyOWYc',
-    database: process.env.MYSQLDATABASE || process.env.DB_NAME || 'railway',
-    port: parseInt(process.env.MYSQLPORT || process.env.DB_PORT || '13602', 10),
+    password: process.env.MYSQLPASSWORD || process.env.DB_PASSWORD || '',
+    database: process.env.MYSQLDATABASE || process.env.DB_NAME || 'data_dashboard',
+    port: parseInt(process.env.MYSQLPORT || process.env.DB_PORT || '3306', 10),
     connectionLimit: 10,
     waitForConnections: true,
     queueLimit: 0,

@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-// Producción (mismo origen): usa /api. Desarrollo: localhost. Override con VITE_API_URL
+// API URL - apunta a Railway en producción
 export const API_BASE_URL = import.meta.env.VITE_API_URL
-  || (import.meta.env.PROD ? '/api' : 'http://localhost:3001/api');
+  || (import.meta.env.PROD ? 'https://fia-production-2b3a.up.railway.app/api' : 'http://localhost:3001/api');
 
 // Crear instancia de axios
 const api = axios.create({
