@@ -4,6 +4,15 @@
  */
 
 require('dotenv').config();
+
+// Debug: Ver qué variables están disponibles
+console.log('🔍 Variables de entorno disponibles:');
+console.log('   MYSQL_URL:', process.env.MYSQL_URL ? 'DEFINIDO' : 'NO DEFINIDO');
+console.log('   MYSQLHOST:', process.env.MYSQLHOST ? 'DEFINIDO' : 'NO DEFINIDO');
+console.log('   MYSQLUSER:', process.env.MYSQLUSER ? 'DEFINIDO' : 'NO DEFINIDO');
+console.log('   MYSQLDATABASE:', process.env.MYSQLDATABASE ? 'DEFINIDO' : 'NO DEFINIDO');
+console.log('');
+
 const serverConfig = require('./config/server.config');
 const { getInstance: getDbConnection } = require('./infrastructure/database/connection');
 
