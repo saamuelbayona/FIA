@@ -24,6 +24,8 @@ class App {
   setupMiddlewares() {
     // CORS - soporta múltiples orígenes separados por coma
     const corsOrigins = serverConfig.corsOrigin.split(',').map(origin => origin.trim());
+    console.log('🔒 CORS Origins from ENV:', process.env.CORS_ORIGIN);
+    console.log('🔒 CORS configurado para:', corsOrigins);
     this.app.use(cors({
       origin: corsOrigins.length === 1 && corsOrigins[0] === '*' ? '*' : corsOrigins,
       credentials: true
