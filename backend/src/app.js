@@ -22,9 +22,10 @@ class App {
    * Configurar middlewares
    */
   setupMiddlewares() {
-    // CORS
+    // CORS - soporta múltiples orígenes separados por coma
+    const corsOrigins = serverConfig.corsOrigin.split(',').map(origin => origin.trim());
     this.app.use(cors({
-      origin: serverConfig.corsOrigin,
+      origin: corsOrigins.length === 1 && corsOrigins[0] === '*' ? '*' : corsOrigins,
       credentials: true
     }));
 
