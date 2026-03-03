@@ -32,7 +32,7 @@ const App = require('./app');
  */
 async function startServer() {
   try {
-    console.log('🚀 Iniciando servidor FIA...\n');
+    console.log('🚀 Iniciando servidor FIA con CORS multi-dominio...\n');
 
     // Conectar a la base de datos
     const dbConnection = getDbConnection();
