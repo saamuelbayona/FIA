@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { LogOut, User, Home, ChevronDown, ChevronRight, ArrowLeftRight, Briefcase, DollarSign, Factory, Users, Shield, TrendingUp, UserCheck, Truck, Package } from 'lucide-react';
+import { LogOut, User, Home, ChevronDown, ChevronRight, ArrowLeftRight, Briefcase, DollarSign, Factory, Users, Shield, TrendingUp, UserCheck, Truck, Package, Menu, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../services/authService';
 import { ROUTES } from '../routes/paths';
@@ -9,6 +9,7 @@ export default function Sidebar({ activeSection, setActiveSection, onLogout }) {
   const user = authService.getUser();
   const navigate = useNavigate();
   const [expandedSections, setExpandedSections] = useState({});
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const toggleSection = (sectionId) => {
     setExpandedSections(prev => ({
@@ -80,16 +81,47 @@ export default function Sidebar({ activeSection, setActiveSection, onLogout }) {
   ];
 
   return (
-    <motion.div
-      initial={{ x: -300 }}
-      animate={{ x: 0 }}
-      className="fixed inset-y-0 left-0 w-64 backdrop-blur-xl overflow-y-auto"
-      style={{
-        background: 'rgba(15, 23, 42, 0.9)',
-        borderRight: '1px solid rgba(148, 163, 184, 0.3)'
-      }}
-    >
-      <div className="flex flex-col min-h-full">
+    <>
+      {/* Mobile Menu Button */}
+      <button
+        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+        className="lg:hidden fixed top-4 left-4 z-50 p-3 rounded-xl backdrop-blur-xl"
+        style={{
+          background: 'rgba(15, 23, 42, 0.9)',
+          border: '1px solid rgba(148, 163, 184, 0.3)'
+        }}
+      >
+        {isMobileMenuOpen ? (
+          <X className="w-6 h-6 text-white" />
+        ) : (
+          <Menu className="w-6 h-6 text-white" />
+        )}
+      </button>
+
+      {/* Overlay for mobile */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsMobileMenuOpen(false)}
+            className="lg:hidden fixed inset-0 bg-black/50 z-40"
+          />
+        )}
+      </AnimatePresence>
+
+      {/* Sidebar */}
+      <motion.div
+        initial={{ x: -300 }}
+        animate={{ x: isMobileMenuOpen || window.innerWidth >= 1024 ? 0 : -300 }}
+        className="fixed inset-y-0 left-0 w-64 backdrop-blur-xl overflow-y-auto z-40 lg:z-auto"
+        style={{
+          background: 'rgba(15, 23, 42, 0.9)',
+          borderRight: '1px solid rgba(148, 163, 184, 0.3)'
+        }}
+      >
+        <div className="flex flex-col min-h-full">
         
         {/* Logo */}
         <div className="p-6" style={{ borderBottom: '1px solid rgba(148, 163, 184, 0.3)' }}>
@@ -144,6 +176,7 @@ export default function Sidebar({ activeSection, setActiveSection, onLogout }) {
                   onClick={() => {
                     if (item.type === 'single') {
                       setActiveSection(item.id);
+                      setIsMobileMenuOpen(false);
                     } else {
                       toggleSection(item.id);
                     }
@@ -180,7 +213,10 @@ export default function Sidebar({ activeSection, setActiveSection, onLogout }) {
                           return (
                             <motion.button
                               key={subitem.id}
-                              onClick={() => setActiveSection(subitem.id)}
+                              onClick={() => {
+                                setActiveSection(subitem.id);
+                                setIsMobileMenuOpen(false);
+                              }}
                               className="w-full text-left px-4 py-2 rounded-lg transition-all duration-200 text-sm"
                               style={{
                                 background: isSubActive ? 'rgba(56, 189, 248, 0.15)' : 'transparent',
@@ -236,5 +272,6 @@ export default function Sidebar({ activeSection, setActiveSection, onLogout }) {
 
       </div>
     </motion.div>
+    </>
   );
 }

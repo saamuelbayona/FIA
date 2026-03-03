@@ -68,18 +68,18 @@ export default function Dashboard() {
         onLogout={handleLogout}
       />
       
-      <div className="ml-64 p-8">
+      <div className="lg:ml-64 p-4 sm:p-6 lg:p-8 pt-20 lg:pt-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           className="max-w-7xl mx-auto"
         >
           {/* Header */}
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-white mb-2">
+          <div className="mb-6 lg:mb-8">
+            <h1 className="text-2xl sm:text-3xl font-bold text-white mb-2">
               {activeSection.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
             </h1>
-            <p className="text-gray-400">Análisis y métricas en tiempo real</p>
+            <p className="text-sm sm:text-base text-gray-400">Análisis y métricas en tiempo real</p>
           </div>
 
           {/* Content */}

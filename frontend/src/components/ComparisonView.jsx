@@ -73,14 +73,14 @@ const ComparisonView = memo(({ items, onClose }) => {
         animate={{ scale: 1, y: 0 }}
         exit={{ scale: 0.9, y: 20 }}
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl"
+        className="w-full max-w-5xl max-h-[90vh] overflow-y-auto rounded-xl sm:rounded-2xl shadow-2xl"
         style={{
           background: 'rgba(15, 23, 42, 0.95)',
           border: '1px solid rgba(148, 163, 184, 0.3)'
         }}
       >
         {/* Header */}
-        <div className="sticky top-0 z-10 backdrop-blur-xl p-6 border-b"
+        <div className="sticky top-0 z-10 backdrop-blur-xl p-4 sm:p-6 border-b"
           style={{
             background: 'rgba(15, 23, 42, 0.95)',
             borderColor: 'rgba(148, 163, 184, 0.3)'
@@ -88,8 +88,8 @@ const ComparisonView = memo(({ items, onClose }) => {
         >
           <div className="flex items-center justify-between">
             <div>
-              <h2 className="text-2xl font-bold text-white">Análisis Comparativo</h2>
-              <p className="text-sm text-gray-400 mt-1">
+              <h2 className="text-xl sm:text-2xl font-bold text-white">Análisis Comparativo</h2>
+              <p className="text-xs sm:text-sm text-gray-400 mt-1">
                 Comparando {items.length} {items.length === 1 ? 'elemento' : 'elementos'}
               </p>
             </div>
@@ -103,16 +103,16 @@ const ComparisonView = memo(({ items, onClose }) => {
         </div>
 
         {/* Content */}
-        <div className="p-6 space-y-6">
+        <div className="p-4 sm:p-6 space-y-4 sm:space-y-6">
           
           {/* Chart */}
-          <div className="backdrop-blur-xl rounded-xl p-6"
+          <div className="backdrop-blur-xl rounded-lg sm:rounded-xl p-4 sm:p-6"
             style={{
               background: 'rgba(15, 23, 42, 0.6)',
               border: '1px solid rgba(148, 163, 184, 0.2)'
             }}
           >
-            <h3 className="text-lg font-semibold text-white mb-4">Comparación Visual (Miles de Millones)</h3>
+            <h3 className="text-base sm:text-lg font-semibold text-white mb-3 sm:mb-4">Comparación Visual (Miles de Millones)</h3>
             
             {/* Leyenda de items */}
             <div className="mb-4 p-4 rounded-lg" style={{
@@ -130,7 +130,7 @@ const ComparisonView = memo(({ items, onClose }) => {
               </div>
             </div>
 
-            <ResponsiveContainer width="100%" height={300}>
+            <ResponsiveContainer width="100%" height={250}>
               <BarChart data={chartData}>
                 <defs>
                   <linearGradient id="colorBar1" x1="0" y1="0" x2="0" y2="1">
@@ -167,7 +167,7 @@ const ComparisonView = memo(({ items, onClose }) => {
           </div>
 
           {/* Detailed Comparison */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             {items.map((item, index) => {
               const variationPercent = item.value2024 !== 0 
                 ? ((item.variation / item.value2024) * 100).toFixed(2)
@@ -181,16 +181,16 @@ const ComparisonView = memo(({ items, onClose }) => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="backdrop-blur-xl rounded-xl p-6"
+                  className="backdrop-blur-xl rounded-lg sm:rounded-xl p-4 sm:p-6"
                   style={{
                     background: 'rgba(15, 23, 42, 0.6)',
                     border: '1px solid rgba(148, 163, 184, 0.2)'
                   }}
                 >
-                  <div className="flex items-start justify-between mb-4">
-                    <div>
-                      <h4 className="text-white font-semibold">{item.accountName}</h4>
-                      <p className="text-sm text-gray-400 mt-1">
+                  <div className="flex items-start justify-between mb-3 sm:mb-4">
+                    <div className="flex-1 pr-2">
+                      <h4 className="text-sm sm:text-base text-white font-semibold break-words">{item.accountName}</h4>
+                      <p className="text-xs sm:text-sm text-gray-400 mt-1">
                         {item.category} • {item.subcategory}
                       </p>
                     </div>
@@ -209,24 +209,24 @@ const ComparisonView = memo(({ items, onClose }) => {
                     </div>
                   </div>
 
-                  <div className="space-y-3">
+                  <div className="space-y-2 sm:space-y-3">
                     <div>
                       <p className="text-xs text-gray-500 mb-1">Valor 2025</p>
-                      <p className="text-xl font-bold text-white">{formatCurrency(item.value2025)}</p>
+                      <p className="text-lg sm:text-xl font-bold text-white break-all">{formatCurrency(item.value2025)}</p>
                     </div>
                     <div>
                       <p className="text-xs text-gray-500 mb-1">Valor 2024</p>
-                      <p className="text-lg text-gray-400">{formatCurrency(item.value2024)}</p>
+                      <p className="text-base sm:text-lg text-gray-400 break-all">{formatCurrency(item.value2024)}</p>
                     </div>
-                    <div className="pt-3 border-t border-gray-700/50">
+                    <div className="pt-2 sm:pt-3 border-t border-gray-700/50">
                       <p className="text-xs text-gray-500 mb-1">Variación</p>
-                      <div className="flex items-center justify-between">
-                        <p className={`text-lg font-semibold ${
+                      <div className="flex items-center justify-between gap-2">
+                        <p className={`text-base sm:text-lg font-semibold break-all ${
                           isPositive ? 'text-green-400' : isNegative ? 'text-red-400' : 'text-gray-400'
                         }`}>
                           {formatCurrency(item.variation)}
                         </p>
-                        <span className={`text-sm font-medium ${
+                        <span className={`text-xs sm:text-sm font-medium whitespace-nowrap ${
                           isPositive ? 'text-green-400' : isNegative ? 'text-red-400' : 'text-gray-400'
                         }`}>
                           {isPositive && '+'}{variationPercent}%

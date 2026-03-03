@@ -89,33 +89,33 @@ const AISearch = memo(({ data, onCompare }) => {
   ], [data, onCompare]);
 
   return (
-    <div className="w-full max-w-4xl mx-auto mb-8">
+    <div className="w-full max-w-4xl mx-auto mb-6 sm:mb-8">
       {/* Search Card */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="backdrop-blur-xl rounded-2xl p-6 shadow-2xl"
+        className="backdrop-blur-xl rounded-xl sm:rounded-2xl p-4 sm:p-6 shadow-2xl"
         style={{
           background: 'rgba(15, 23, 42, 0.9)',
           border: '1px solid rgba(148, 163, 184, 0.3)'
         }}
       >
-        <div className="flex items-center gap-3 mb-4">
-          <Sparkles className="w-6 h-6 text-sky-400" />
-          <h3 className="text-lg font-semibold text-white">Búsqueda Inteligente</h3>
+        <div className="flex items-center gap-2 sm:gap-3 mb-3 sm:mb-4">
+          <Sparkles className="w-5 h-5 sm:w-6 sm:h-6 text-sky-400" />
+          <h3 className="text-base sm:text-lg font-semibold text-white">Búsqueda Inteligente</h3>
         </div>
 
         {/* Search Input */}
         <div className="relative">
-          <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-            <Search className="h-5 w-5 text-gray-500" />
+          <div className="absolute inset-y-0 left-0 pl-3 sm:pl-4 flex items-center pointer-events-none">
+            <Search className="h-4 w-4 sm:h-5 sm:w-5 text-gray-500" />
           </div>
           <input
             type="text"
             value={query}
             onChange={handleSearch}
-            placeholder="Busca cuentas, compara datos o pregunta sobre finanzas..."
-            className="w-full pl-12 pr-4 py-3 rounded-full text-white placeholder-gray-500 focus:outline-none transition"
+            placeholder="Busca cuentas, compara datos..."
+            className="w-full pl-10 sm:pl-12 pr-3 sm:pr-4 py-2.5 sm:py-3 rounded-full text-sm sm:text-base text-white placeholder-gray-500 focus:outline-none transition"
             style={{
               background: 'rgba(15, 23, 42, 0.9)',
               border: '1px solid rgba(148, 163, 184, 0.7)',
@@ -206,14 +206,14 @@ const AISearch = memo(({ data, onCompare }) => {
         </AnimatePresence>
 
         {/* Quick Actions */}
-        <div className="mt-4">
+        <div className="mt-3 sm:mt-4">
           <p className="text-xs text-gray-500 mb-2">Acciones rápidas:</p>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-1.5 sm:gap-2">
             {quickActions.map((action, index) => (
               <button
                 key={index}
                 onClick={action.action}
-                className="px-3 py-1.5 rounded-full text-xs font-medium transition-all"
+                className="px-2.5 sm:px-3 py-1.5 rounded-full text-xs font-medium transition-all"
                 style={{
                   background: 'rgba(56, 189, 248, 0.15)',
                   color: '#7dd3fc',

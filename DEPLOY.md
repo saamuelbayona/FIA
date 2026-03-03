@@ -44,23 +44,120 @@ git push -u origin main
 
 ## 4. Variables de entorno en Railway
 
-En tu proyecto de Railway, ve a **Variables** y agrega:
+### 📌 Importante: Diferencia Local vs Producción
+
+- **Local (desarrollo):** Usa el archivo `backend/.env`
+- **Railway (producción):** Usa variables configuradas en el panel de Railway
+
+### Configuración en Railway
+
+**IMPORTANTE:** Railway inyecta las variables automáticamente. NO necesitas subir el archivo `.env` a Git.
+
+#### Paso 1: Crear Base de Datos MySQL en Railway
+
+1. En tu proyecto de Railway, haz clic en **+ New** → **Database** → **MySQL**
+2. Railway creará automáticamente estas variables:
+   - `MYSQL_URL`
+   - `MYSQLHOST`
+   - `MYSQLUSER`
+   - `MYSQLPASSWORD`
+   - `MYSQLDATABASE`
+   - `MYSQLPORT`
+
+#### Paso 2: Vincular la Base de Datos a tu App
+
+1. Ve a tu **servicio de la app** (el que despliega el código)
+2. Click en **Variables**
+3. Click en **+ New Variable** → **Add Reference**
+4. Selecciona el servicio **MySQL** que creaste
+5. Railway automáticamente vinculará todas las variables de la base de datos
+
+#### Paso 3: Agregar Variables Adicionales
+
+En **Variables** de tu app, agrega manualmente:
+
+| Variable      | Valor Recomendado              | Descripción                    |
+|---------------|--------------------------------|--------------------------------|
+| `PORT`        | (Railway lo asigna automático) | Puerto del servidor            |
+| `NODE_ENV`    | `production`                   | Entorno de ejecución           |
+| `JWT_SECRET`  | (genera uno aleatorio)         | Clave secreta para JWT         |
+| `JWT_EXPIRATION` | `24h`                       | Tiempo de expiración del token |
+| `CORS_ORIGIN` | `*` o tu dominio               | Orígenes permitidos para CORS  |
+
+**Generar JWT_SECRET aleatorio:**
+```bash
+# En tu terminal local (no lo subas a Git)
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
+```
+
+#### Paso 4: Verificar la Conexión
+
+El código en `database.config.js` detecta automáticamente si está en Railway:
+
+```javascript
+// 1. Primero intenta usar MYSQL_URL (Railway)
+const mysqlUrl = process.env.MYSQL_URL || process.env.MYSQL_PUBLIC_URL;
+
+if (mysqlUrl) {
+  // ✅ Conecta usando la URL completa (Railway)
+  module.exports = { uri: mysqlUrl, ... };
+} else {
+  // ✅ Conecta usando variables individuales (Local o Railway sin URL)
+  module.exports = {
+    host: process.env.MYSQLHOST || 'localhost',
+    user: process.env.MYSQLUSER || 'root',
+    // ...
+  };
+}
+```
+
+### 🔍 Cómo Verificar que Funciona
+
+Después de desplegar, revisa los logs en Railway:
+
+```
+✅ Servidor iniciado correctamente
+📡 Puerto: 3001
+🗄️  Base de datos: railway
+```
+
+Si ves errores de conexión:
+1. Verifica que el servicio MySQL esté **running**
+2. Confirma que las variables estén vinculadas (Variables → References)
+3. Revisa que el servicio de la app tenga acceso al MySQL
 
 | Variable      | Descripción                     | Ejemplo                    |
 |---------------|---------------------------------|----------------------------|
-| `PORT`        | Lo asigna Railway automáticamente | -                        |
-| `DB_HOST`     | Host de MySQL/MariaDB           | `monorail.proxy.rlwy.net` |
-| `DB_USER`     | Usuario de base de datos        | `root`                    |
-| `DB_PASSWORD` | Contraseña de base de datos     | `***`                     |
-| `DB_NAME`     | Nombre de la base de datos      | `railway`                 |
-| `DB_PORT`     | Puerto de MySQL                 | `12345`                   |
 | `JWT_SECRET`  | Clave secreta para JWT          | (genera una aleatoria)    |
+
+### ⚠️ NO Necesitas Configurar Estas (Railway las Crea Automáticamente)
+
+Cuando vinculas el servicio MySQL, Railway inyecta automáticamente:
+- `MYSQL_URL` - URL completa de conexión
+- `MYSQLHOST` - Host de la base de datos
+- `MYSQLUSER` - Usuario
+- `MYSQLPASSWORD` - Contraseña
+- `MYSQLDATABASE` - Nombre de la base de datos
+- `MYSQLPORT` - Puerto
 
 **Base de datos en Railway:**
 1. En tu proyecto, haz clic en **+ New** → **Database** → **MySQL**.
 2. **Importante:** En tu **servicio de la app** (el que despliega el código), ve a **Variables** → **Add Reference** (o "+" para nueva variable).
 3. Selecciona el **servicio MySQL** como referencia — así se inyectarán `MYSQL_URL`, `MYSQLHOST`, etc. automáticamente.
 4. Sin esta referencia, la app intentará conectar a localhost y fallará.
+
+### 🔧 Resumen de Configuración
+
+**Lo que Railway hace automáticamente:**
+- ✅ Crea la base de datos MySQL
+- ✅ Genera credenciales seguras
+- ✅ Inyecta variables de entorno al vincular servicios
+- ✅ Asigna el puerto (`PORT`)
+
+**Lo que TÚ debes hacer:**
+- ✅ Vincular el servicio MySQL a tu app (Add Reference)
+- ✅ Agregar `JWT_SECRET` manualmente
+- ✅ Importar los datos a la base de datos (ver paso 5)
 
 ## 5. Importar la base de datos a Railway
 

@@ -153,7 +153,7 @@ export default function Login() {
             textShadow: '0 0 18px rgba(56, 189, 248, 0.5), 0 0 32px rgba(37, 99, 235, 0.4)'
           }}
         >
-          Sistema de Inteligencia Financiera
+          Fiesta Intelligence Asistant
         </motion.p>
       </motion.div>
 
@@ -268,13 +268,6 @@ export default function Login() {
           </button>
 
         </form>
-
-        {/* Footer Info */}
-        <div className="mt-6 text-center text-xs text-gray-500 space-y-1">
-          <p>Usuarios: admin, analista, viewer</p>
-          <p>Contraseña: [usuario]123</p>
-        </div>
-
       </motion.div>
     </div>
   );
